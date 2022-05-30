@@ -14,7 +14,6 @@ function stringToInt(num) {
     return parseInt(num.replace(/,/g, ''))
 }
 
-
 app.get("/", async (req, res) => {
     const response = await axios.get("https://coinmarketcap.com/currencies/vita-inu/")
     const $ = cheerio.load(response.data)
@@ -33,7 +32,6 @@ app.get("/", async (req, res) => {
 })
 
 
-  
 app.listen(port, () => {
     console.log("Loaded...")
 })
