@@ -6,9 +6,10 @@ const port = process.env.PORT || 3000
 
 // Telegram
 const TelegramBot = require('node-telegram-bot-api')
-const token = '5454610284:AAESug-tmlDd0DTdh45m4Hi3P4aDlK43sbw'
+// const token = '5541697132:AAGXmJynSh2kx0Ui5TzdONDced4Of1EZnfc'
+const token = '5454610284:AAESug-tmlDd0DTdh45m4Hi3P4aDlK43sbw' // test one
 const bot = new TelegramBot(token, {polling: true})
-const commands = ['total', 'max', 'burnt']
+const commands = ['total', 'max', 'burnt', 'info']
 
 // 
 const stringToInt = (num) => parseInt(num.replace(/,/g, ''))
@@ -24,6 +25,7 @@ const getSupply  = async() => {
     const burntSupply = 999999999999999 - totalSupply
 
     return({
+        info: "Hello world",
         total: intToString(totalSupply),
         max: intToString(maxSupply),
         burnt: intToString(burntSupply)
@@ -34,12 +36,14 @@ bot.onText(/\/(.+)/, async (msg, match) => {
     let req = match[1]
     let res = null
 
-    commands.includes(req) 
-        ? res = `${capitalizeFirstLetter(req)} Supply: ${(await getSupply())[req]}`
+    commands.includes(req)
+        ? res = (req === "info")
+            ? `This bot was made by @iredux as a part of vinuburn.com project.`
+            : `${capitalizeFirstLetter(req)} Supply: ${(await getSupply())[req]}`
         : res = `Wrong command`
     
     bot.sendMessage(msg.chat.id, res);
-});
+})
 
 
 app.listen(port, () => console.log("...."))
